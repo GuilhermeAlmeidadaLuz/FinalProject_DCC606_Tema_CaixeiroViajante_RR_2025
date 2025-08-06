@@ -3,7 +3,7 @@ import folium
 import requests
 
 vertices = pd.read_csv("vertices.csv")
-rota = pd.read_csv("rota.csv")["id"].tolist()
+rota = pd.read_csv("../tsp/tempo.csv")["id"].tolist()
 
 #Renderiza o mapa
 primeiro_ponto = vertices.loc[vertices["id"] == rota[0]].iloc[0]
@@ -38,4 +38,4 @@ for i in range(len(rota) - 1):
     except Exception as e:
         print("erro")
 
-m.save("rota_real.html")
+m.save("rota.html")
