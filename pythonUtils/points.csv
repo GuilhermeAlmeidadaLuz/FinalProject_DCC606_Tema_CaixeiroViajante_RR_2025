@@ -1,15 +1,33 @@
-id,endereço,stop_type
-1,"Av. Pérola, 314",3
-2,"Rua Campo Grande",3
-3,"Av. Sol Nascente, 2543",3
-4,"Rua Curitiba",3
-5,"Av. Brilho Do Sol, 2599",3
-6,"Av. Brilho Do Sol, 745",3
-7,"Av. Brilho Do Sol, 377",3
-8,"R. Estrela D'álva, 524 - Raiar do Sol",3
-9,"Rua Estrela D'Álva, 1196",3
-10,"Rua Estrela D'Álva, 1872",3
-11,"Av. Centenário, 1365",3
-12,"Av. Centenário, 699",3
-13,"Hospital Infantil Santo Antônio",2
-14,"Terminal Centro",1
+id,endereço,stop_type,lat,lon
+1,"Terminal Centro",1,2.814626702696001, -60.669915054510675
+2,"Secretaria da Fazenda do Estado",1,2.822412025265777, -60.67376505051653
+3,"Praça Velia Coutinho",3,2.82705767462377, -60.67894804150086
+4,"6º Batalhão de Engenharia de Construção",3,2.8288196274216366, -60.68217534354431
+5,"Fundação Nacional de Saúde",3,2.8323752250498955, -60.68503204140525
+6,"Hospital Geral de Roraima",2,2.832159213678762, -60.68873825780075
+7,"Sesi, RR",2, 2.8302147685821413, -60.69229628770751
+8,"Departamento de Trânsito de Roraima",2,2.828620869773112, -60.69509118872444
+9,"Av. Getúlio Vargas, 5625",3,2.8202233648357597, -60.668309680939636
+10,"Praça Da Bandeira",3,2.8221522326063178, -60.66668947716597
+11,"Av. Maj. Williams, 502 - São Pedro",3, 2.8242554983327763, -60.66439326381605
+12,"Av. Maj. Williams, 930 - São Francisco",3,2.8275267336735643, -60.66816867073458
+13,"Igreja Do São Francisco",3,2.8289052403271495, -60.67127908653584
+14,"Av. Ville Roy, 6606 - Centro",3, 2.818476080855928, -60.67516046721113
+15,"Defensoria Pública Do Estado",3, 2.816371804629399, -60.68512479773982
+16,"Rua General Penha Brasil, 952",3,2.830702881503953, -60.67746405704015
+17,"Rua General Penha Brasil, 1315",3,2.8337837838065565, -60.67909822965129
+18,"Parque Anauá",2,2.833736541833854, -60.685189209755215
+19,"Avenida Princesa Isabel, 130, Jardim floresta",2,2.8244207331609177, -60.69719500643199
+20,"Sest Senat Roraima",2,2.825951813040699, -60.70528342953055
+21,"Av. Carlos Pereira de Melo, 1113 - Jardim Floresta",2,2.831436311125834, -60.7114962664755
+22,"Av. Carlos Pereira de Melo, 820 - Jardim Floresta",3,2.8307397369387792, -60.70806683480525
+23,"Av. Carlos Pereira de Melo, 181",3,2.8336243158818193, -60.72095789056192
+24,"Terminal Luiz Canuto Chavez",1,2.822013768689812, -60.67375121839021
+25,"Sesc Administrativo Roraima",3, 2.821282115534179, -60.675917828115274
+26,"Av. Mário Homem de Melo, 514 - Centro",3,2.8214754230333092, -60.67846378110625
+27,"Praça Do Mecejana",3,2.8255571075650905, -60.694452512651104
+28,"Clinica das Crianças Menino de Jesus",3,2.8220428654573744, -60.68757130491435
+29,"Avenida Mário Homem de Melo,1489, Mecejana",3,2.822540592688396, -60.69145790439368
+30,"Avenida Mário Homem de Melo 1980,Mecejana",3,2.8223007260414383, -60.691504680744416
+31,"Escola Estadual Ana Libória",2,2.8236139642017046, -60.695866885384525
+32,"UFRR",3,2.8307413615419894, -60.6986524466423
