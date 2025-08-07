@@ -1,0 +1,11 @@
+# Ignorar ambientes virtuais
+pythonUtils/venv/
+
+# Ignorar arquivos .c
+tsp/tsp-mst.c
+
+# Ignorar arquivos .exe
+tsp/tsp-mst.exe
+
+# Ignorar apenas um arquivo .csv específico
+tsp/rota_aproximada_tsp_mst.csv
