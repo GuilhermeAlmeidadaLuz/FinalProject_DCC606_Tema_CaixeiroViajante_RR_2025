@@ -5,15 +5,13 @@ import requests
 # Carrega os dados
 vertices = pd.read_csv("points.csv")
 arestas = pd.read_csv("arestas.csv")
-rota = pd.read_csv("../Resultados/passageiros.csv")["id"].tolist()
+rota = pd.read_csv("../Resultados/equilibrio.csv")["id"].tolist()
 
-# Remove vértices com lat/lon inválidos
 vertices = vertices[pd.to_numeric(vertices["lat"], errors="coerce").notnull()]
 vertices = vertices[pd.to_numeric(vertices["lon"], errors="coerce").notnull()]
 vertices["lat"] = vertices["lat"].astype(float)
 vertices["lon"] = vertices["lon"].astype(float)
 
-# Verifica se o primeiro ponto da rota tem coordenadas válidas
 primeiro_ponto = vertices.loc[vertices["id"] == rota[0]].iloc[0]
 m = folium.Map(location=[primeiro_ponto["lat"], primeiro_ponto["lon"]], zoom_start=14)
 
@@ -69,4 +67,4 @@ for i in range(len(rota) - 1):
         tooltip=passageiros_str
     ).add_to(m)
 
-m.save("../Resultados/passageiros.html")
+m.save("../Resultados/equilibrio.html")
