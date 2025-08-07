@@ -8,9 +8,10 @@
 #define MAX_EDGES 5000
 #define TEMPO_PESO 1.0 
 #define PASSAGEIROS_PESO 1.0
-#define TEMP_INICIAL 1000.0
-#define RESFRIAMENTO 0.995
+#define TEMP_INICIAL 1000000.0
+#define RESFRIAMENTO 0.999
 #define QTD_INTERMEDIARIOS 6
+#define MAX_ITER_POR_TEMPERATURA 100
 
 typedef struct {
     int origem;
@@ -65,6 +66,32 @@ double calc_score(int rota[], int tamanho) {
     return (TEMPO_PESO * tempo_total) - (PASSAGEIROS_PESO * passageiros_total);
 }
 
+void imprimir_detalhes_rota(int rota[], int tamanho, const char* nome) {
+    double tempo_total = 0.0;
+    double passageiros_total = 0.0;
+    for (int i = 0; i < tamanho - 1; i++) {
+        int o = rota[i], d = rota[i + 1];
+        double t = 1e9, p = 0.0;
+        for (int j = 0; j < qtd_arestas; j++) {
+            if (arestas[j].origem == o && arestas[j].destino == d) {
+                t = arestas[j].tempo;
+                p = arestas[j].passageiros;
+                break;
+            }
+        }
+        if (t == 1e9) {
+            printf("Aresta inválida entre %d e %d\n", o, d);
+            return;
+        }
+        tempo_total += t;
+        passageiros_total += p;
+    }
+    printf("%s:\n", nome);
+    printf("  Tempo total: %.2f minutos\n", tempo_total);
+    printf("  Passageiros totais: %.2f\n\n", passageiros_total);
+}
+
+
 void gerar_rota_inicial(int origem, int destino, int rota[], int *tamanho_rota) {
     int intermediarios[MAX_NODES];
     int qtd_intermed = 0;
@@ -86,11 +113,16 @@ void gerar_rota_inicial(int origem, int destino, int rota[], int *tamanho_rota) 
 }
 
 void swap(int rota[], int tamanho) {
-    int i = 1 + rand() % (tamanho - 2);
-    int j = 1 + rand() % (tamanho - 2);
-    int tmp = rota[i];
-    rota[i] = rota[j];
-    rota[j] = tmp;
+    int num_swaps = 2 + rand() % 3;
+    for (int s = 0; s < num_swaps; s++) {
+        int i = 1 + rand() % (tamanho - 2);
+        int j = 1 + rand() % (tamanho - 2);
+        if (i != j) {
+            int tmp = rota[i];
+            rota[i] = rota[j];
+            rota[j] = tmp;
+        }
+    }
 }
 
 void copiar_rota(int src[], int dst[], int tamanho) {
@@ -103,22 +135,28 @@ void simulated_annealing(int origem, int destino, int melhor_rota[], int *melhor
     gerar_rota_inicial(origem, destino, rota_atual, melhor_tam);
     copiar_rota(rota_atual, melhor_rota, *melhor_tam);
     double melhor_score = calc_score(melhor_rota, *melhor_tam);
+
     while (temp > 1e-3) {
-        copiar_rota(rota_atual, nova_rota, *melhor_tam);
-        swap(nova_rota, *melhor_tam);
-        double score_novo = calc_score(nova_rota, *melhor_tam);
-        double score_atual = calc_score(rota_atual, *melhor_tam);
-        if (score_novo < score_atual || (rand() / (double)RAND_MAX) < exp((score_atual - score_novo) / temp)) {
-            copiar_rota(nova_rota, rota_atual, *melhor_tam);
-            score_atual = score_novo;
-            if (score_novo < melhor_score) {
-                copiar_rota(nova_rota, melhor_rota, *melhor_tam);
-                melhor_score = score_novo;
+        for (int iter = 0; iter < MAX_ITER_POR_TEMPERATURA; iter++) {
+            copiar_rota(rota_atual, nova_rota, *melhor_tam);
+            swap(nova_rota, *melhor_tam);
+
+            double score_novo = calc_score(nova_rota, *melhor_tam);
+            double score_atual = calc_score(rota_atual, *melhor_tam);
+
+            if (score_novo < score_atual || (rand() / (double)RAND_MAX) < exp((score_atual - score_novo) / temp)) {
+                copiar_rota(nova_rota, rota_atual, *melhor_tam);
+
+                if (score_novo < melhor_score) {
+                    copiar_rota(nova_rota, melhor_rota, *melhor_tam);
+                    melhor_score = score_novo;
+                }
             }
         }
         temp *= RESFRIAMENTO;
     }
 }
+
 
 void salvar_rota(const char *arquivo, int rota1[], int tam1, int rota2[], int tam2) {
     FILE *f = fopen(arquivo, "w");
@@ -126,7 +164,7 @@ void salvar_rota(const char *arquivo, int rota1[], int tam1, int rota2[], int ta
     fprintf(f, "id\n");
     for (int i = 0; i < tam1; i++)
         fprintf(f, "%d\n", rota1[i]);
-    for (int i = 1; i < tam2; i++)
+    for (int i = 1; i < tam1; i++)
         fprintf(f, "%d\n", rota2[i]);
     fclose(f);
 };
@@ -143,7 +181,9 @@ int main() {
 
     simulated_annealing(origem, destino, melhor_ida, &tam_ida);
     simulated_annealing(destino, origem, melhor_volta, &tam_volta);
+    imprimir_detalhes_rota(melhor_ida, tam_ida, "Rota de ida");
+    imprimir_detalhes_rota(melhor_volta, tam_volta, "Rota de volta");
 
-    salvar_rota("rota.csv", melhor_ida, tam_ida, melhor_volta, tam_volta);
+    salvar_rota("../Resultados/equilibrio.csv", melhor_ida, tam_ida, melhor_volta, tam_volta);
     return 0;
 }
